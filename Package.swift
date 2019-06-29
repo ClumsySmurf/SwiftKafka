@@ -4,34 +4,30 @@
 import PackageDescription
 
 let package = Package(
-    name: "SwiftKafka",
+    name: "Dependencies",
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
-            name: "SwiftKafka",
-            targets: ["SwiftKafka"]),
+            name: "Dependencies",
+            type: .static,
+            targets: ["Dependencies"]),
     ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0"),
+      .package(url: "git@github.com:ClumsySmurf/SwiftKafka.git", .branch("master"))
     ],
     targets: [
+      .systemLibrary(name: "Crdkafka",
+                     pkgConfig: "rdkafka",
+                     path: "./Sources/Crdkafka",
+                     providers: [
+                          .brew(["librdkafka"]),
+                          .apt(["librdkafka-dev"])
+                     ]
+      ),
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
-        .systemLibrary(name: "Crdkafka",
-                       pkgConfig: "rdkafka",
-                       providers: [
-                            .brew(["librdkafka"]),
-                            .apt(["librdkafka-dev"])
-                       ]
-        ),
         .target(
-            name: "SwiftKafka",
-            dependencies: ["Crdkafka", "Logging"]
-        ),
-        .testTarget(
-            name: "SwiftKafkaTests",
-            dependencies: ["SwiftKafka"]
-        ),
-    ]
+            name: "Dependencies",
+            dependencies: ["SwiftKafka", "Crdkafka"])
+      ]
 )
