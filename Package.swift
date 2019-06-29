@@ -27,6 +27,7 @@ let package = Package(
         ),
         .target(
             name: "SwiftKafka",
+            path: ".".
             dependencies: ["Crdkafka", "Logging"]
         ),
         .testTarget(
