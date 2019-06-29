@@ -17,8 +17,8 @@ let package = Package(
     ],
     targets: [
       .systemLibrary(name: "Crdkafka",
-                     pkgConfig: "rdkafka",
                      path: "./Sources/Crdkafka",
+                     pkgConfig: "rdkafka",
                      providers: [
                           .brew(["librdkafka"]),
                           .apt(["librdkafka-dev"])
